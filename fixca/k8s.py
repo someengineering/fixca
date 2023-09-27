@@ -13,7 +13,7 @@ def k8s_client() -> client.CoreV1Api:
         try:
             config.load_kube_config()
         except config.config_exception.ConfigException as e:
-            log.error(f"Failed to load Kubernetes config: {e}")
+            log.critical(f"Failed to load Kubernetes config: {e}")
             sys.exit(1)
     return client.CoreV1Api()
 
@@ -44,6 +44,13 @@ def set_secret(namespace: str, secret_name: str, data: dict[str, str]) -> None:
         k8s.replace_namespaced_secret(name=secret_name, namespace=namespace, body=secret)
     except ApiException as e:
         if e.status == 404:
-            k8s.create_namespaced_secret(namespace=namespace, body=secret)
+            try:
+                k8s.create_namespaced_secret(namespace=namespace, body=secret)
+            except ApiException as e:
+                if e.status == 404:
+                    log.critical(f"Namespace {namespace} does not exist")
+                    sys.exit(1)
+                else:
+                    raise
         else:
             raise
