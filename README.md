@@ -1,2 +1,1 @@
-# fixca
-FIX Internal Certification Authority
+# `fixca` - FIX Certificate Authority
