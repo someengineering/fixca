@@ -57,10 +57,10 @@ def load_ca_data(namespace: str = "fix", secret_name: str = "fix-ca") -> Tuple[R
     return key, cert
 
 
-def get_ca() -> CertificateAuthority:
+def get_ca(namespace: str = "fix", secret_name: str = "fix-ca") -> CertificateAuthority:
     global CA
     if CA is None:
-        CA = CertificateAuthority(*load_ca_data())
+        CA = CertificateAuthority(*load_ca_data(namespace=namespace, secret_name=secret_name))
     return CA
 
 

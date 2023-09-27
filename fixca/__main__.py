@@ -28,7 +28,7 @@ def main() -> None:
 
     add_event_listener(EventType.SHUTDOWN, shutdown)
 
-    CA = get_ca()
+    CA = get_ca(namespace=args.namespace, secret_name=args.secret)
 
     common_name = "ca.fix"
     cert_key = gen_rsa_key()

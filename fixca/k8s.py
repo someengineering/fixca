@@ -38,9 +38,7 @@ def set_secret(namespace: str, secret_name: str, data: dict[str, str]) -> None:
     k8s = k8s_client()
 
     secret_data = {k: base64.b64encode(v.encode("utf-8")).decode("utf-8") for k, v in data.items()}
-    secret = client.V1Secret(
-        metadata=client.V1ObjectMeta(name=secret_name), type="Opaque", data=secret_data
-    )
+    secret = client.V1Secret(metadata=client.V1ObjectMeta(name=secret_name), type="Opaque", data=secret_data)
     try:
         k8s.read_namespaced_secret(name=secret_name, namespace=namespace)
         k8s.replace_namespaced_secret(name=secret_name, namespace=namespace, body=secret)
