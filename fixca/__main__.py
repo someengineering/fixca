@@ -37,14 +37,12 @@ def main() -> None:
         common_name=common_name,
         san_dns_names=[common_name],
     )
-    cert = CA.sign(cert_csr)
-    cert_file = "ca.cert.pem"
-    key_file = "ca.key.pem"
+    cert_crt = CA.sign(cert_csr)
     with TemporaryDirectory() as tmpdir:
-        cert_path = os.path.join(tmpdir, cert_file)
-        key_path = os.path.join(tmpdir, key_file)
+        cert_path = os.path.join(tmpdir, "ca.crt")
+        key_path = os.path.join(tmpdir, "ca.key")
         log.debug(f"Writing CA cert to {cert_path}")
-        write_cert_to_file(cert, cert_path)
+        write_cert_to_file(cert_crt, cert_path)
         log.debug(f"Writing CA key to {key_path}")
         write_key_to_file(cert_key, key_path)
 
