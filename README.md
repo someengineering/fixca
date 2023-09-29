@@ -11,7 +11,8 @@ The API is fully compatible with Resoto Core's CA API. I.e. `/ca/cert` to downlo
 ## Usage
 
 ```bash
-usage: fixca [-h] --psk PSK [--port PORT] [--namespace NAMESPACE] [--secret SECRET] [--verbose | --trace | --quiet]
+usage: fixca [-h] [--psk PSK] [--port PORT] [--namespace NAMESPACE] [--secret SECRET]
+             [--verbose | --trace | --quiet]
 
 FIX Certification Authority
 
@@ -26,3 +27,12 @@ options:
   --trace               Trage logging
   --quiet               Only log errors
 ```
+
+Alternatively export the following environment variables:
+
+- `FIXCA_PSK`
+- `FIXCA_PORT`
+- `FIXCA_NAMESPACE`
+- `FIXCA_SECRET`
+
+Only the pre-shared-key is mandatory. The other options have sensible defaults.
