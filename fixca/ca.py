@@ -3,7 +3,7 @@ import cherrypy
 from functools import wraps
 from prometheus_client.exposition import generate_latest, CONTENT_TYPE_LATEST
 from typing import Optional, Dict, Callable, Tuple, Union, Any, List
-from cryptography.hazmat.primitives.asymmetric.rsa import RSAPrivateKey, RSAPublicKey
+from cryptography.hazmat.primitives.asymmetric.rsa import RSAPrivateKey
 from cryptography.x509.base import Certificate, CertificateSigningRequest
 from resotolib.logger import log
 from resotolib.x509 import (
@@ -25,10 +25,10 @@ from .utils import str_to_bool
 
 
 class CertificateAuthority:
-    def __init__(self):
-        self.cert = None
-        self.__key = None
-        self.__initialized = False
+    def __init__(self) -> None:
+        self.cert: Optional[Certificate] = None
+        self.__key: Optional[RSAPrivateKey] = None
+        self.__initialized: bool = False
 
     @staticmethod
     def requires_initialized(func: Callable[..., Any]) -> Callable[..., Any]:
@@ -42,6 +42,7 @@ class CertificateAuthority:
 
     @requires_initialized
     def sign(self, csr: CertificateSigningRequest) -> Certificate:
+        assert self.__key is not None and self.cert is not None
         return sign_csr(csr, self.__key, self.cert)
 
     def initialize(self, namespace: str = "cert-manager", secret_name: str = "fix-ca", dummy_ca: bool = False) -> None:
@@ -62,7 +63,7 @@ class CertificateAuthority:
         log.info("Loading CA data")
         ca_secret = get_secret(namespace=namespace, secret_name=secret_name)
 
-        if isinstance(ca_secret, dict) and (not "tls.key" in ca_secret or not "tls.crt" in ca_secret):
+        if isinstance(ca_secret, dict) and ("tls.key" not in ca_secret or "tls.crt" not in ca_secret):
             ca_secret = None
             log.error("CA secret is missing key or cert")
 
@@ -126,6 +127,7 @@ class CertificateAuthority:
         include_ca_bundle: bool = False,
     ) -> None:
         log.info(f"Storing certificate {cert_crt.subject.rfc4514_string()} in {namespace}/{secret_name}")
+        assert self.cert is not None
         secret = {
             key_cert: cert_to_bytes(cert_crt).decode("utf-8"),
             key_key: key_to_bytes(cert_key).decode("utf-8"),
@@ -143,10 +145,10 @@ class CertificateAuthority:
 
 
 CA: CertificateAuthority = CertificateAuthority()
-PSK: Optional[Union[str, Certificate, RSAPublicKey]] = None
+PSK: Optional[str] = None
 
 
-def jwt_check():
+def jwt_check() -> None:
     headers = cherrypy.request.headers
     assert PSK is not None
 
@@ -182,8 +184,8 @@ class WebApp:
         if self.mountpoint not in ("/", ""):
             self.config[self.mountpoint] = config
 
-    @cherrypy.expose
-    @cherrypy.tools.allow(methods=["GET"])
+    @cherrypy.expose  # type: ignore
+    @cherrypy.tools.allow(methods=["GET"])  # type: ignore
     def health(self) -> str:
         cherrypy.response.headers["Content-Type"] = "text/plain"
         unhealthy = [f"- {name}" for name, fn in self.health_conditions.items() if not fn()]
@@ -195,37 +197,37 @@ class WebApp:
             cherrypy.response.headers["Content-Type"] = "text/plain"
             return "not ok\r\n\r\n" + "\r\n".join(unhealthy) + "\r\n"
 
-    @cherrypy.expose
-    @cherrypy.tools.allow(methods=["GET"])
+    @cherrypy.expose  # type: ignore
+    @cherrypy.tools.allow(methods=["GET"])  # type: ignore
     def metrics(self) -> bytes:
         cherrypy.response.headers["Content-Type"] = CONTENT_TYPE_LATEST
         return generate_latest()
 
 
 class CaApp:
-    def __init__(self, ca: CertificateAuthority, psk_or_cert: Union[str, Certificate, RSAPublicKey]) -> None:
+    def __init__(self, ca: CertificateAuthority, psk: str) -> None:
         global PSK
         self.ca = ca
-        self.psk_or_cert = psk_or_cert
+        self.psk = psk
         self.config = {"/": {"tools.gzip.on": False}}
-        PSK = self.psk_or_cert
+        PSK = self.psk
 
-    @cherrypy.expose
-    @cherrypy.tools.allow(methods=["GET"])
+    @cherrypy.expose  # type: ignore
+    @cherrypy.tools.allow(methods=["GET"])  # type: ignore
     def cert(self) -> bytes:
-        assert self.psk_or_cert is not None
+        assert self.psk is not None and self.ca.cert is not None
         fingerprint = cert_fingerprint(self.ca.cert)
         cherrypy.response.headers["Content-Type"] = "application/x-pem-file"
         cherrypy.response.headers["SHA256-Fingerprint"] = fingerprint
         cherrypy.response.headers["Content-Disposition"] = 'attachment; filename="fix_root_ca.pem"'
         cherrypy.response.headers["Authorization"] = "Bearer " + encode_jwt(
-            {"sha256_fingerprint": fingerprint}, self.psk_or_cert
+            {"sha256_fingerprint": fingerprint}, self.psk
         )
         return cert_to_bytes(self.ca.cert)
 
-    @cherrypy.expose
-    @cherrypy.tools.allow(methods=["POST"])
-    @cherrypy.tools.jwt_check()
+    @cherrypy.expose  # type: ignore
+    @cherrypy.tools.allow(methods=["POST"])  # type: ignore
+    @cherrypy.tools.jwt_check()  # type: ignore
     def sign(self) -> bytes:
         try:
             csr = load_csr_from_bytes(cherrypy.request.body.read())
@@ -242,13 +244,14 @@ class CaApp:
         cherrypy.response.headers["Content-Disposition"] = f'attachment; filename="{filename}"'
         return cert_to_bytes(crt)
 
-    @cherrypy.expose
-    @cherrypy.tools.json_out()
-    @cherrypy.tools.json_in()
-    @cherrypy.tools.allow(methods=["POST"])
-    @cherrypy.tools.jwt_check()
-    def generate(self) -> bytes:
+    @cherrypy.expose  # type: ignore
+    @cherrypy.tools.json_out()  # type: ignore
+    @cherrypy.tools.json_in()  # type: ignore
+    @cherrypy.tools.allow(methods=["POST"])  # type: ignore
+    @cherrypy.tools.jwt_check()  # type: ignore
+    def generate(self) -> Dict[str, Any]:
         try:
+            assert self.ca.cert is not None
             request_json = cherrypy.request.json
             remote_addr = cherrypy.request.remote.ip
             include_ca_cert = str_to_bool(request_json.get("include_ca_cert", False))

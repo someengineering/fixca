@@ -1,6 +1,7 @@
 import os
 import sys
 import resotolib.proc
+from signal import SIGTERM
 from tempfile import TemporaryDirectory
 from resotolib.logger import log, setup_logger, add_args as logging_add_args
 from resotolib.web import WebServer
@@ -9,19 +10,20 @@ from resotolib.x509 import gen_csr, gen_rsa_key, write_cert_to_file, write_key_t
 from .args import parse_args
 from .ca import CA, WebApp, CaApp
 from threading import Event
+from typing import Any
 
 
 shutdown_event = Event()
 
 
-def shutdown(event) -> None:
+def shutdown(even: Any) -> None:
     log.info("Shutting down")
     shutdown_event.set()
 
 
 def main() -> None:
     setup_logger("fixca")
-    args = parse_args([logging_add_args])
+    args = parse_args([logging_add_args])  # type: ignore
     log.info(f"Starting FIX CA on port {args.port}")
     resotolib.proc.initializer()
     resotolib.proc.parent_pid = os.getpid()
@@ -63,7 +65,7 @@ def main() -> None:
         shutdown_event.wait()
         web_server.shutdown()
 
-    resotolib.proc.kill_children(resotolib.proc.SIGTERM, ensure_death=True)
+    resotolib.proc.kill_children(SIGTERM, ensure_death=True)
     log.info("Shutdown complete")
     sys.exit(0)
 

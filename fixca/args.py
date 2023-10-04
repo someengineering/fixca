@@ -1,9 +1,10 @@
 import os
 from argparse import ArgumentParser, Namespace
-from typing import Callable, List
+from resotolib.args import ArgumentParser as ResotoArgumentParser
+from typing import Callable, List, Union
 
 
-def parse_args(add_args: List[Callable]) -> Namespace:
+def parse_args(add_args: List[Callable[[ArgumentParser], None]]) -> Namespace:
     parser = ArgumentParser(prog="fixca", description="FIX Certification Authority")
     parser.add_argument("--psk", dest="psk", help="Pre-shared-key", default=os.environ.get("FIXCA_PSK"))
     parser.add_argument(
