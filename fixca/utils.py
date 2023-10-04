@@ -1,24 +1,23 @@
 import time
 from functools import wraps
-from typing import Callable, Any, Tuple, Dict, Union, TypeVar, Type
+from typing import Callable, Any, Tuple, Dict, Union
 
 
 def str_to_bool(s: Union[str, bool]) -> bool:
     return str(s).lower() in ("true", "1", "yes")
 
 
-RT = TypeVar("RT")
-
-
 def memoize(
-    ttl: int = 60, cleanup_interval: int = 600, time_fn: Callable[[], float] = time.time
-) -> Callable[[Callable[..., RT]], Callable[..., RT]]:
+    ttl: int = 60,
+    cleanup_interval: int = 600,
+    time_fn: Callable[[], float] = time.time,
+) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
     last_cleanup: float = 0.0
-    cache: Dict[Tuple[Callable[..., RT], Tuple[Any, ...], frozenset[Tuple[str, Any]]], Tuple[RT, float]] = {}
+    cache: Dict[Tuple[Callable[..., Any], Tuple[Any, ...], frozenset[Tuple[str, Any]]], Tuple[Any, float]] = {}
 
-    def decorating_function(user_function: Callable[..., RT]) -> Callable[..., RT]:
+    def decorating_function(user_function: Callable[..., Any]) -> Callable[..., Any]:
         @wraps(user_function)
-        def wrapper(*args: Any, **kwargs: Any) -> RT:
+        def wrapper(*args: Any, **kwargs: Any) -> Any:
             now = time_fn()
             key = (user_function, args, frozenset(kwargs.items()))
             if key in cache:

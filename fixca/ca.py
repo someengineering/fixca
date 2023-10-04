@@ -184,8 +184,8 @@ class WebApp:
         if self.mountpoint not in ("/", ""):
             self.config[self.mountpoint] = config
 
-    @cherrypy.expose
-    @cherrypy.tools.allow(methods=["GET"])
+    @cherrypy.expose  # type: ignore
+    @cherrypy.tools.allow(methods=["GET"])  # type: ignore
     def health(self) -> str:
         cherrypy.response.headers["Content-Type"] = "text/plain"
         unhealthy = [f"- {name}" for name, fn in self.health_conditions.items() if not fn()]
@@ -197,8 +197,8 @@ class WebApp:
             cherrypy.response.headers["Content-Type"] = "text/plain"
             return "not ok\r\n\r\n" + "\r\n".join(unhealthy) + "\r\n"
 
-    @cherrypy.expose
-    @cherrypy.tools.allow(methods=["GET"])
+    @cherrypy.expose  # type: ignore
+    @cherrypy.tools.allow(methods=["GET"])  # type: ignore
     def metrics(self) -> bytes:
         cherrypy.response.headers["Content-Type"] = CONTENT_TYPE_LATEST
         return generate_latest()
@@ -212,8 +212,8 @@ class CaApp:
         self.config = {"/": {"tools.gzip.on": False}}
         PSK = self.psk
 
-    @cherrypy.expose
-    @cherrypy.tools.allow(methods=["GET"])
+    @cherrypy.expose  # type: ignore
+    @cherrypy.tools.allow(methods=["GET"])  # type: ignore
     def cert(self) -> bytes:
         assert self.psk is not None and self.ca.cert is not None
         fingerprint = cert_fingerprint(self.ca.cert)
@@ -225,9 +225,9 @@ class CaApp:
         )
         return cert_to_bytes(self.ca.cert)
 
-    @cherrypy.expose
-    @cherrypy.tools.allow(methods=["POST"])
-    @cherrypy.tools.jwt_check()
+    @cherrypy.expose  # type: ignore
+    @cherrypy.tools.allow(methods=["POST"])  # type: ignore
+    @cherrypy.tools.jwt_check()  # type: ignore
     def sign(self) -> bytes:
         try:
             csr = load_csr_from_bytes(cherrypy.request.body.read())
@@ -244,11 +244,11 @@ class CaApp:
         cherrypy.response.headers["Content-Disposition"] = f'attachment; filename="{filename}"'
         return cert_to_bytes(crt)
 
-    @cherrypy.expose
-    @cherrypy.tools.json_out()
-    @cherrypy.tools.json_in()
-    @cherrypy.tools.allow(methods=["POST"])
-    @cherrypy.tools.jwt_check()
+    @cherrypy.expose  # type: ignore
+    @cherrypy.tools.json_out()  # type: ignore
+    @cherrypy.tools.json_in()  # type: ignore
+    @cherrypy.tools.allow(methods=["POST"])  # type: ignore
+    @cherrypy.tools.jwt_check()  # type: ignore
     def generate(self) -> Dict[str, Any]:
         try:
             assert self.ca.cert is not None
