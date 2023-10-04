@@ -44,8 +44,11 @@ class CertificateAuthority:
     def sign(self, csr: CertificateSigningRequest) -> Certificate:
         return sign_csr(csr, self.__key, self.cert)
 
-    def initialize(self, namespace: str = "cert-manager", secret_name: str = "fix-ca") -> None:
-        self.__key, self.cert = self.__load_ca_data(namespace=namespace, secret_name=secret_name)
+    def initialize(self, namespace: str = "cert-manager", secret_name: str = "fix-ca", dummy_ca: bool = False) -> None:
+        if dummy_ca:
+            self.__key, self.cert = bootstrap_ca(common_name="FIX Certificate Authority")
+        else:
+            self.__key, self.cert = self.__load_ca_data(namespace=namespace, secret_name=secret_name)
         self.__initialized = True
 
     @property

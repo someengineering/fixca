@@ -25,6 +25,13 @@ def parse_args(add_args: List[Callable]) -> Namespace:
         help="Secret name (default: fix-ca)",
         default=os.environ.get("FIXCA_SECRET", "fix-ca"),
     )
+    parser.add_argument(
+        "--dummy",
+        help="Start a dummy CA that does not persist its state",
+        dest="dummy_ca",
+        action="store_true",
+        default=False,
+    )
     for add_arg in add_args:
         add_arg(parser)
 
