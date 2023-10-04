@@ -36,3 +36,48 @@ Alternatively export the following environment variables:
 - `FIXCA_SECRET`
 
 Only the pre-shared-key is mandatory. The other options have sensible defaults.
+
+## K8s cluster issuer
+
+When using [cert-manager](https://cert-manager.io/) to issue certificates for your services you can use the following cluster issuer:
+
+```yaml
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: fix-ca-issuer
+  namespace: cert-manager
+spec:
+  ca:
+    secretName: fix-ca
+```
+
+### Example Certificate
+
+```yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: lukas-test-cert
+  namespace: fix
+spec:
+  secretName: lukas-test
+  duration: 2160h # 90d
+  renewBefore: 360h # 15d
+  commonName: lukas.test
+  privateKey:
+    algorithm: RSA
+    encoding: PKCS1
+    size: 2048
+  usages:
+    - server auth
+    - client auth
+  dnsNames:
+    - redis.fix
+  issuerRef:
+    name: fix-ca-issuer
+    group: cert-manager.io
+    kind: ClusterIssuer
+```
+
+Check the [cert-manager documentation](https://cert-manager.io/docs/usage/certificate/) for more information.

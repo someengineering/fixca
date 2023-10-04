@@ -4,9 +4,16 @@ from typing import Optional
 from resotolib.logger import log
 from kubernetes import client, config
 from kubernetes.client.exceptions import ApiException
+from .utils import memoize
 
 
 def k8s_client() -> client.CoreV1Api:
+    k8s_config_load()
+    return client.CoreV1Api()
+
+
+@memoize()
+def k8s_config_load() -> None:
     try:
         config.load_incluster_config()
     except config.config_exception.ConfigException:
@@ -15,7 +22,6 @@ def k8s_client() -> client.CoreV1Api:
         except config.config_exception.ConfigException as e:
             log.critical(f"Failed to load Kubernetes config: {e}")
             sys.exit(1)
-    return client.CoreV1Api()
 
 
 def get_secret(namespace: str, secret_name: str) -> Optional[dict[str, str]]:
