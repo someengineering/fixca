@@ -65,7 +65,7 @@ class CertificateAuthority:
 
         if ca_secret is None:
             log.debug("Bootstrapping a new CA")
-            key, cert = bootstrap_ca(common_name="FIX Certification Authority")
+            key, cert = bootstrap_ca(common_name="FIX Certificate Authority")
             ca_secret = {
                 "tls.key": key_to_bytes(key).decode("utf-8"),
                 "tls.crt": cert_to_bytes(cert).decode("utf-8"),
