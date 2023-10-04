@@ -1,0 +1,265 @@
+aiodns==3.0.0
+    # via aiohttp
+aiohttp[speedups]==3.8.5
+    # via resotolib
+aiosignal==1.3.1
+    # via aiohttp
+annotated-types==0.5.0
+    # via pydantic
+astroid==3.0.0
+    # via pylint
+async-timeout==4.0.3
+    # via aiohttp
+attrs==23.1.0
+    # via
+    #   aiohttp
+    #   cattrs
+    #   hypothesis
+    #   resotolib
+autocommand==2.2.2
+    # via jaraco-text
+black==23.9.1
+    # via fixca (pyproject.toml)
+brotli==1.1.0
+    # via aiohttp
+cachetools==5.3.1
+    # via
+    #   google-auth
+    #   tox
+cattrs==23.1.2
+    # via resotolib
+certifi==2023.7.22
+    # via
+    #   kubernetes
+    #   requests
+cffi==1.16.0
+    # via
+    #   cryptography
+    #   pycares
+chardet==5.2.0
+    # via tox
+charset-normalizer==3.3.0
+    # via
+    #   aiohttp
+    #   requests
+cheroot==10.0.0
+    # via cherrypy
+cherrypy==18.8.0
+    # via resotolib
+click==8.1.7
+    # via black
+colorama==0.4.6
+    # via tox
+coverage[toml]==7.3.2
+    # via
+    #   fixca (pyproject.toml)
+    #   pytest-cov
+cryptography==41.0.4
+    # via
+    #   fixca (pyproject.toml)
+    #   resotolib
+dill==0.3.7
+    # via pylint
+distlib==0.3.7
+    # via virtualenv
+filelock==3.12.4
+    # via
+    #   tox
+    #   virtualenv
+flake8==6.1.0
+    # via
+    #   fixca (pyproject.toml)
+    #   pep8-naming
+frozendict==2.3.8
+    # via resotolib
+frozenlist==1.4.0
+    # via
+    #   aiohttp
+    #   aiosignal
+google-auth==2.23.2
+    # via kubernetes
+hypothesis==6.87.1
+    # via fixca (pyproject.toml)
+idna==3.4
+    # via
+    #   requests
+    #   yarl
+inflect==7.0.0
+    # via jaraco-text
+iniconfig==2.0.0
+    # via pytest
+isort==5.12.0
+    # via pylint
+jaraco-collections==4.3.0
+    # via cherrypy
+jaraco-context==4.3.0
+    # via jaraco-text
+jaraco-functools==3.9.0
+    # via
+    #   cheroot
+    #   jaraco-text
+    #   tempora
+jaraco-text==3.11.1
+    # via jaraco-collections
+jsons==1.6.3
+    # via resotolib
+kubernetes==28.1.0
+    # via fixca (pyproject.toml)
+mccabe==0.7.0
+    # via
+    #   flake8
+    #   pylint
+more-itertools==10.1.0
+    # via
+    #   cheroot
+    #   cherrypy
+    #   jaraco-functools
+    #   jaraco-text
+multidict==6.0.4
+    # via
+    #   aiohttp
+    #   yarl
+mypy==1.5.1
+    # via fixca (pyproject.toml)
+mypy-extensions==1.0.0
+    # via
+    #   black
+    #   mypy
+networkx==3.1
+    # via resotolib
+oauthlib==3.2.2
+    # via
+    #   kubernetes
+    #   requests-oauthlib
+packaging==23.2
+    # via
+    #   black
+    #   pyproject-api
+    #   pytest
+    #   tox
+parsy==2.1
+    # via resotolib
+pathspec==0.11.2
+    # via black
+pep8-naming==0.13.3
+    # via fixca (pyproject.toml)
+pint==0.22
+    # via resotolib
+platformdirs==3.11.0
+    # via
+    #   black
+    #   pylint
+    #   tox
+    #   virtualenv
+pluggy==1.3.0
+    # via
+    #   pytest
+    #   tox
+portend==3.2.0
+    # via cherrypy
+prometheus-client==0.17.1
+    # via resotolib
+psutil==5.9.5
+    # via resotolib
+pyasn1==0.5.0
+    # via
+    #   pyasn1-modules
+    #   rsa
+pyasn1-modules==0.3.0
+    # via google-auth
+pycares==4.3.0
+    # via aiodns
+pycodestyle==2.11.0
+    # via flake8
+pycparser==2.21
+    # via cffi
+pydantic==2.4.2
+    # via inflect
+pydantic-core==2.10.1
+    # via pydantic
+pyflakes==3.1.0
+    # via flake8
+pyjwt==2.8.0
+    # via resotolib
+pylint==3.0.0
+    # via fixca (pyproject.toml)
+pyproject-api==1.6.1
+    # via tox
+pytest==7.4.2
+    # via
+    #   fixca (pyproject.toml)
+    #   pytest-asyncio
+    #   pytest-cov
+pytest-asyncio==0.21.1
+    # via fixca (pyproject.toml)
+pytest-cov==4.1.0
+    # via fixca (pyproject.toml)
+pytest-runner==6.0.0
+    # via fixca (pyproject.toml)
+python-dateutil==2.8.2
+    # via
+    #   kubernetes
+    #   resotolib
+pytz==2023.3.post1
+    # via tempora
+pyyaml==6.0.1
+    # via
+    #   kubernetes
+    #   resotolib
+requests==2.31.0
+    # via
+    #   kubernetes
+    #   requests-oauthlib
+    #   resotolib
+requests-oauthlib==1.3.1
+    # via kubernetes
+resotolib==3.8.0
+    # via fixca (pyproject.toml)
+rsa==4.9
+    # via google-auth
+setuptools==68.2.2
+    # via zc-lockfile
+six==1.16.0
+    # via
+    #   kubernetes
+    #   python-dateutil
+sortedcontainers==2.4.0
+    # via hypothesis
+tempora==5.5.0
+    # via portend
+tomlkit==0.12.1
+    # via pylint
+tox==4.11.3
+    # via fixca (pyproject.toml)
+typeguard==4.1.5
+    # via resotolib
+typing-extensions==4.8.0
+    # via
+    #   inflect
+    #   mypy
+    #   pint
+    #   pydantic
+    #   pydantic-core
+    #   typeguard
+typish==1.9.3
+    # via jsons
+tzdata==2023.3
+    # via resotolib
+tzlocal==5.0.1
+    # via resotolib
+urllib3==1.26.17
+    # via
+    #   kubernetes
+    #   requests
+virtualenv==20.24.5
+    # via tox
+websocket-client==1.6.3
+    # via
+    #   kubernetes
+    #   resotolib
+wheel==0.41.2
+    # via fixca (pyproject.toml)
+yarl==1.9.2
+    # via aiohttp
+zc-lockfile==3.0.post1
+    # via cherrypy
