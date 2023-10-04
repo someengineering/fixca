@@ -7,7 +7,7 @@ from resotolib.web import WebServer
 from resotolib.event import EventType, add_event_listener
 from resotolib.x509 import gen_csr, gen_rsa_key, write_cert_to_file, write_key_to_file
 from .args import parse_args
-from .ca import get_ca, WebApp, CaApp
+from .ca import CA, WebApp, CaApp
 from threading import Event
 
 
@@ -28,7 +28,7 @@ def main() -> None:
 
     add_event_listener(EventType.SHUTDOWN, shutdown)
 
-    CA = get_ca(namespace=args.namespace, secret_name=args.secret)
+    CA.initialize(namespace=args.namespace, secret_name=args.secret)
 
     common_name = "ca.fix"
     cert_key = gen_rsa_key()
@@ -52,8 +52,11 @@ def main() -> None:
             web_port=args.port,
             ssl_cert=cert_path,
             ssl_key=key_path,
+            extra_config={
+                "tools.proxy.on": True,
+            },
         )
-        web_server.mount("/ca", CaApp(get_ca(), args.psk))
+        web_server.mount("/ca", CaApp(CA, args.psk))
 
         web_server.daemon = True
         web_server.start()

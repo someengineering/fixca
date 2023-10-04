@@ -16,8 +16,8 @@ def parse_args(add_args: List[Callable]) -> Namespace:
     parser.add_argument(
         "--namespace",
         dest="namespace",
-        help="K8s namespace (default: fix)",
-        default=os.environ.get("FIXCA_NAMESPACE", "fix"),
+        help="K8s namespace (default: cert-manager)",
+        default=os.environ.get("FIXCA_NAMESPACE", "cert-manager"),
     )
     parser.add_argument(
         "--secret",
