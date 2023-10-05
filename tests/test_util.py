@@ -2,16 +2,19 @@ import time
 from fixca.utils import memoize, str_to_bool
 
 
+fake_time = time.time()
+
+
 def test_memoize() -> None:
+    global fake_time
     foo1 = foo()
-    time.sleep(0.1)
     assert foo() == foo1
-    time.sleep(1.1)
+    fake_time += 2
     assert foo() != foo1
 
 
-@memoize(ttl=1)
-def foo() -> int:
+@memoize(ttl=1, time_fn=lambda: fake_time)
+def foo() -> float:
     return time.time()
 
 
