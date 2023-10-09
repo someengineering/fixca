@@ -4,6 +4,8 @@ from typing import Optional
 from resotolib.logger import log
 from kubernetes import client, config
 from kubernetes.client.exceptions import ApiException
+from kubernetes.client.models.v1_namespace_list import V1NamespaceList
+from kubernetes.client.models.v1_namespace import V1Namespace
 from .utils import memoize
 
 
@@ -60,3 +62,20 @@ def set_secret(namespace: str, secret_name: str, data: dict[str, str]) -> None:
                     raise
         else:
             raise
+
+
+def get_namespaces(exclude_system: bool = True) -> list[str]:
+    k8s = k8s_client()
+
+    system_namespaces = ["kube-system", "kube-public", "kube-node-lease"]
+
+    try:
+        namespaces: V1NamespaceList = k8s.list_namespace()
+        return [
+            ns.metadata.name
+            for ns in namespaces.items
+            if isinstance(ns, V1Namespace) and (not exclude_system or ns.metadata.name not in system_namespaces)
+        ]
+    except ApiException as e:
+        log.error(f"Failed to fetch namespaces: {e}")
+        return []
