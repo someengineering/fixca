@@ -20,7 +20,7 @@ from resotolib.x509 import (
     gen_ca_bundle_bytes,
 )
 from resotolib.jwt import encode_jwt, decode_jwt_from_headers
-from .k8s import get_secret, set_secret
+from .k8s import get_secret, set_secret, get_namespaces
 from .utils import str_to_bool
 
 
@@ -142,6 +142,16 @@ class CertificateAuthority:
             secret_name=secret_name,
             data=secret,
         )
+
+    @requires_initialized
+    def store_ca_certs(self, exclude_system: bool = True) -> None:
+        for namespace in get_namespaces(exclude_system=exclude_system):
+            log.debug(f"Storing CA cert in {namespace}/fix-ca-cert")
+            set_secret(
+                namespace=namespace,
+                secret_name="fix-ca-cert",
+                data={"ca.crt": cert_to_bytes(self.cert).decode("utf-8")},
+            )
 
 
 CA: CertificateAuthority = CertificateAuthority()

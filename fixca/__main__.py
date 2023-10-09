@@ -31,13 +31,19 @@ def main() -> None:
     add_event_listener(EventType.SHUTDOWN, shutdown)
 
     CA.initialize(namespace=args.namespace, secret_name=args.secret, dummy_ca=args.dummy_ca)
+    CA.store_ca_certs()
 
-    common_name = "ca.fix"
+    common_name = "fixca"
     cert_key = gen_rsa_key()
     cert_csr = gen_csr(
         cert_key,
         common_name=common_name,
-        san_dns_names=[common_name],
+        san_dns_names=[
+            common_name,
+            f"{common_name}.{args.namespace}",
+            f"{common_name}.{args.namespace}.svc",
+            f"{common_name}.{args.namespace}.svc.cluster.local",
+        ],
     )
     cert_crt = CA.sign(cert_csr)
     with TemporaryDirectory() as tmpdir:
