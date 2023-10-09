@@ -145,6 +145,7 @@ class CertificateAuthority:
 
     @requires_initialized
     def store_ca_certs(self, exclude_system: bool = True) -> None:
+        assert self.cert is not None
         for namespace in get_namespaces(exclude_system=exclude_system):
             log.debug(f"Storing CA cert in {namespace}/fix-ca-cert")
             set_secret(
