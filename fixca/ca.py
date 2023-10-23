@@ -151,7 +151,10 @@ class CertificateAuthority:
             set_secret(
                 namespace=namespace,
                 secret_name="fix-ca-cert",
-                data={"ca.pem": cert_to_bytes(self.cert).decode("utf-8")},
+                data={
+                    "ca.pem": cert_to_bytes(self.cert).decode("utf-8"),
+                    "ca.bundle.pem": gen_ca_bundle_bytes(self.cert).decode("utf-8"),
+                },
             )
 
 
