@@ -2,7 +2,7 @@
 
 ## Introduction
 
-FIX CA is the internal Certificate Authority for [FIX](https://fix.tt/). It provides the same interface as [Resoto Core's](https://github.com/someengineering/resoto/tree/main/resotocore) built-in CA and is used to issue certificates for FIX internal services.
+FIX CA is the internal Certificate Authority for [FIX](https://fix.tt/). It provides the same interface as [Fix Core's](https://github.com/someengineering/fixinventory/tree/main/fixcore) built-in CA and is used to issue certificates for FIX internal services.
 
 FIX CA stores its CA cert and key in a K8s secret. As such it needs to either run inside a K8s cluster with appropriate permissions or have access to a K8s cluster via `KUBECONFIG`.
 
