@@ -37,7 +37,7 @@ cheroot==10.0.0
     # via cherrypy
 cherrypy==18.8.0
     # via resotolib
-cryptography==41.0.4
+cryptography==42.0.4
     # via
     #   fixca (pyproject.toml)
     #   resotolib
