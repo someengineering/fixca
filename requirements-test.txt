@@ -18,7 +18,7 @@ attrs==23.1.0
     #   resotolib
 autocommand==2.2.2
     # via jaraco-text
-black==23.9.1
+black==24.3.0
     # via fixca (pyproject.toml)
 brotli==1.1.0
     # via aiohttp
