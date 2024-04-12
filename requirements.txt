@@ -49,7 +49,7 @@ frozenlist==1.4.0
     #   aiosignal
 google-auth==2.23.2
     # via kubernetes
-idna==3.4
+idna==3.7
     # via
     #   requests
     #   yarl

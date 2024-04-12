@@ -80,7 +80,7 @@ google-auth==2.23.2
     # via kubernetes
 hypothesis==6.87.1
     # via fixca (pyproject.toml)
-idna==3.4
+idna==3.7
     # via
     #   requests
     #   yarl
