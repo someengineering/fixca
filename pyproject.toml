@@ -29,7 +29,7 @@ keywords = ["cloud security"]
 
 dependencies = [
     "cryptography",
-    "resotolib",
+    "fixinventorylib",
     "kubernetes",
 ]
 

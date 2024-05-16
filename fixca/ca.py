@@ -5,8 +5,8 @@ from prometheus_client.exposition import generate_latest, CONTENT_TYPE_LATEST
 from typing import Optional, Dict, Callable, Tuple, Union, Any, List
 from cryptography.hazmat.primitives.asymmetric.rsa import RSAPrivateKey
 from cryptography.x509.base import Certificate, CertificateSigningRequest
-from resotolib.logger import log
-from resotolib.x509 import (
+from fixlib.logger import log
+from fixlib.x509 import (
     bootstrap_ca,
     sign_csr,
     cert_to_bytes,
@@ -19,7 +19,7 @@ from resotolib.x509 import (
     gen_csr,
     gen_ca_bundle_bytes,
 )
-from resotolib.jwt import encode_jwt, decode_jwt_from_headers
+from fixlib.jwt import encode_jwt, decode_jwt_from_headers
 from .k8s import get_secret, set_secret, get_namespaces
 from .utils import str_to_bool
 
