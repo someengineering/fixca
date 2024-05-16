@@ -1,7 +1,6 @@
 import os
 from argparse import ArgumentParser, Namespace
-from fixlib.args import ArgumentParser as ResotoArgumentParser
-from typing import Callable, List, Union
+from typing import Callable, List
 
 
 def parse_args(add_args: List[Callable[[ArgumentParser], None]]) -> Namespace:
