@@ -1,7 +1,7 @@
 import sys
 import base64
 from typing import Optional
-from resotolib.logger import log
+from fixlib.logger import log
 from kubernetes import client, config
 from kubernetes.client.exceptions import ApiException
 from kubernetes.client.models.v1_namespace_list import V1NamespaceList

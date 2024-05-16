@@ -1,6 +1,6 @@
 import os
 from argparse import ArgumentParser, Namespace
-from resotolib.args import ArgumentParser as ResotoArgumentParser
+from fixlib.args import ArgumentParser as ResotoArgumentParser
 from typing import Callable, List, Union
 
 

@@ -1,27 +1,25 @@
-aiodns==3.0.0
+aiodns==3.2.0
     # via aiohttp
-aiohttp[speedups]==3.8.5
-    # via resotolib
+aiohttp[speedups]==3.9.5
+    # via fixinventorylib
 aiosignal==1.3.1
     # via aiohttp
-annotated-types==0.5.0
-    # via pydantic
-async-timeout==4.0.3
-    # via aiohttp
-attrs==23.1.0
+attrs==23.2.0
     # via
     #   aiohttp
     #   cattrs
-    #   resotolib
+    #   fixinventorylib
 autocommand==2.2.2
     # via jaraco-text
+backports-tarfile==1.1.1
+    # via jaraco-context
 brotli==1.1.0
     # via aiohttp
-cachetools==5.3.1
+cachetools==5.3.3
     # via google-auth
-cattrs==23.1.2
-    # via resotolib
-certifi==2023.7.22
+cattrs==23.2.3
+    # via fixinventorylib
+certifi==2024.2.2
     # via
     #   kubernetes
     #   requests
@@ -29,142 +27,140 @@ cffi==1.16.0
     # via
     #   cryptography
     #   pycares
-charset-normalizer==3.3.0
-    # via
-    #   aiohttp
-    #   requests
-cheroot==10.0.0
+charset-normalizer==3.3.2
+    # via requests
+cheroot==10.0.1
     # via cherrypy
-cherrypy==18.8.0
-    # via resotolib
-cryptography==42.0.4
+cherrypy==18.9.0
+    # via fixinventorylib
+cryptography==42.0.7
     # via
     #   fixca (pyproject.toml)
-    #   resotolib
-frozendict==2.3.8
-    # via resotolib
-frozenlist==1.4.0
+    #   fixinventorylib
+fixinventorylib==4.0.5
+    # via fixca (pyproject.toml)
+frozendict==2.4.4
+    # via fixinventorylib
+frozenlist==1.4.1
     # via
     #   aiohttp
     #   aiosignal
-google-auth==2.23.2
+google-auth==2.29.0
     # via kubernetes
-idna==3.4
+idna==3.7
     # via
     #   requests
     #   yarl
-inflect==7.0.0
+inflect==7.2.1
     # via jaraco-text
-jaraco-collections==4.3.0
+isodate==0.6.1
+    # via fixinventorylib
+jaraco-collections==5.0.1
     # via cherrypy
-jaraco-context==4.3.0
+jaraco-context==5.3.0
     # via jaraco-text
-jaraco-functools==3.9.0
+jaraco-functools==4.0.1
     # via
     #   cheroot
     #   jaraco-text
     #   tempora
-jaraco-text==3.11.1
+jaraco-text==3.12.0
     # via jaraco-collections
 jsons==1.6.3
-    # via resotolib
-kubernetes==28.1.0
+    # via fixinventorylib
+kubernetes==29.0.0
     # via fixca (pyproject.toml)
-more-itertools==10.1.0
+more-itertools==10.2.0
     # via
     #   cheroot
     #   cherrypy
+    #   inflect
     #   jaraco-functools
     #   jaraco-text
-multidict==6.0.4
+multidict==6.0.5
     # via
     #   aiohttp
     #   yarl
-networkx==3.1
-    # via resotolib
+networkx==3.3
+    # via fixinventorylib
 oauthlib==3.2.2
     # via
     #   kubernetes
     #   requests-oauthlib
 parsy==2.1
-    # via resotolib
-pint==0.22
-    # via resotolib
+    # via fixinventorylib
+pint==0.23
+    # via fixinventorylib
 portend==3.2.0
     # via cherrypy
-prometheus-client==0.17.1
-    # via resotolib
-psutil==5.9.5
-    # via resotolib
-pyasn1==0.5.0
+prometheus-client==0.20.0
+    # via fixinventorylib
+psutil==5.9.8
+    # via fixinventorylib
+pyasn1==0.6.0
     # via
     #   pyasn1-modules
     #   rsa
-pyasn1-modules==0.3.0
+pyasn1-modules==0.4.0
     # via google-auth
-pycares==4.3.0
+pycares==4.4.0
     # via aiodns
-pycparser==2.21
+pycparser==2.22
     # via cffi
-pydantic==2.4.2
-    # via inflect
-pydantic-core==2.10.1
-    # via pydantic
 pyjwt==2.8.0
-    # via resotolib
-python-dateutil==2.8.2
+    # via fixinventorylib
+python-dateutil==2.9.0.post0
     # via
+    #   fixinventorylib
     #   kubernetes
-    #   resotolib
-pytz==2023.3.post1
+pytz==2024.1
     # via tempora
 pyyaml==6.0.1
     # via
+    #   fixinventorylib
     #   kubernetes
-    #   resotolib
 requests==2.31.0
     # via
+    #   fixinventorylib
     #   kubernetes
     #   requests-oauthlib
-    #   resotolib
-requests-oauthlib==1.3.1
+requests-oauthlib==2.0.0
     # via kubernetes
-resotolib==3.8.0
-    # via fixca (pyproject.toml)
 rsa==4.9
     # via google-auth
-setuptools==68.2.2
+setuptools==69.5.1
     # via zc-lockfile
 six==1.16.0
     # via
+    #   isodate
     #   kubernetes
     #   python-dateutil
-tempora==5.5.0
+tempora==5.5.1
     # via portend
-typeguard==4.1.5
-    # via resotolib
-typing-extensions==4.8.0
+typeguard==4.2.1
+    # via
+    #   fixinventorylib
+    #   inflect
+typing-extensions==4.11.0
     # via
     #   inflect
     #   pint
-    #   pydantic
-    #   pydantic-core
     #   typeguard
 typish==1.9.3
     # via jsons
-tzdata==2023.3
-    # via resotolib
-tzlocal==5.0.1
-    # via resotolib
-urllib3==1.26.18
+tzdata==2024.1
+    # via fixinventorylib
+tzlocal==5.2
+    # via fixinventorylib
+urllib3==2.2.1
     # via
     #   kubernetes
     #   requests
-websocket-client==1.6.3
+websocket-client==1.8.0
     # via
+    #   fixinventorylib
     #   kubernetes
-    #   resotolib
-yarl==1.9.2
+yarl==1.9.4
     # via aiohttp
 zc-lockfile==3.0.post1
     # via cherrypy

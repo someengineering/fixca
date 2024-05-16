@@ -1,12 +1,12 @@
 import os
 import sys
-import resotolib.proc
+import fixlib.proc
 from signal import SIGTERM
 from tempfile import TemporaryDirectory
-from resotolib.logger import log, setup_logger, add_args as logging_add_args
-from resotolib.web import WebServer
-from resotolib.event import EventType, add_event_listener
-from resotolib.x509 import gen_csr, gen_rsa_key, write_cert_to_file, write_key_to_file
+from fixlib.logger import log, setup_logger, add_args as logging_add_args
+from fixlib.web import WebServer
+from fixlib.event import EventType, add_event_listener
+from fixlib.x509 import gen_csr, gen_rsa_key, write_cert_to_file, write_key_to_file
 from .args import parse_args
 from .ca import CA, WebApp, CaApp
 from threading import Event
@@ -25,8 +25,8 @@ def main() -> None:
     setup_logger("fixca")
     args = parse_args([logging_add_args])  # type: ignore
     log.info(f"Starting FIX CA on port {args.port}")
-    resotolib.proc.initializer()
-    resotolib.proc.parent_pid = os.getpid()
+    fixlib.proc.initializer()
+    fixlib.proc.parent_pid = os.getpid()
 
     add_event_listener(EventType.SHUTDOWN, shutdown)
 
@@ -71,7 +71,7 @@ def main() -> None:
         shutdown_event.wait()
         web_server.shutdown()
 
-    resotolib.proc.kill_children(SIGTERM, ensure_death=True)
+    fixlib.proc.kill_children(SIGTERM, ensure_death=True)
     log.info("Shutdown complete")
     sys.exit(0)
 
