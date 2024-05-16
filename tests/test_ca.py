@@ -1,5 +1,5 @@
 from fixca.ca import CA
-from resotolib.x509 import (
+from fixlib.x509 import (
     gen_rsa_key,
     gen_csr,
 )
