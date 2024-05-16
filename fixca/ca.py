@@ -2,7 +2,7 @@ import os
 import cherrypy
 from functools import wraps
 from prometheus_client.exposition import generate_latest, CONTENT_TYPE_LATEST
-from typing import Optional, Dict, Callable, Tuple, Union, Any, List
+from typing import Optional, Dict, Callable, Tuple, Any, List
 from cryptography.hazmat.primitives.asymmetric.rsa import RSAPrivateKey
 from cryptography.x509.base import Certificate, CertificateSigningRequest
 from fixlib.logger import log
