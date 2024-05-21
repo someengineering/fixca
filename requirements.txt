@@ -119,7 +119,7 @@ pyyaml==6.0.1
     # via
     #   fixinventorylib
     #   kubernetes
-requests==2.31.0
+requests==2.32.0
     # via
     #   fixinventorylib
     #   kubernetes
