@@ -212,7 +212,7 @@ requests-oauthlib==2.0.0
     # via kubernetes
 rsa==4.9
     # via google-auth
-setuptools==69.5.1
+setuptools==70.0.0
     # via zc-lockfile
 six==1.16.0
     # via
